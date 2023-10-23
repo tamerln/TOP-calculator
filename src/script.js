@@ -7,56 +7,61 @@ const ac = document.querySelector("#AC");
 const equals = document.querySelector("#equals");
 const operators = document.querySelectorAll(".operator");
 const operands = document.querySelectorAll(".operand");
+let firstOperand = null;
+let secondOperand = null;
+let op = null;
 
 
-
-operands.forEach(button => {
-  button.addEventListener("click", e => {
-    console.log(e.target.innerHTML);
-    display.innerHTML += e.target.innerHTML;
-  });
-});
-
-let firstOperand;
-let op;
-operators.forEach(operator => {
-operator.addEventListener("click", e => {
-firstOperand = Number(display.innerHTML);
-display.innerHTML = '';
-console.log(firstOperand);
-op = operator.innerHTML;
-console.log(op);
-
+buttons.forEach(button => {
+  button.addEventListener('click', e => {
+    if (button.classList.contains("operand")) {
+      display.innerHTML += e.target.innerHTML;
+      console.log(firstOperand);
+    } else if (button.classList.contains("operator")) {
+      firstOperand = Number(display.innerHTML);
+      clear();
+      op = e.target.innerHTML;
+      console.log(op);
+    } else if (button.id === "equals") {
+      secondOperand = Number(display.innerHTML);
+      console.log(secondOperand);
+      clear();
+      evaluate(firstOperand, secondOperand, op);
+    } else if (button.id === "AC") {
+      clear();
+    } else if (button.id === "negate") {
+      makeNegative();
+    }
+  })
 })
-});
 
-ac.addEventListener("click", function(e) {
+
+ac.addEventListener("click", clear())
+
+function clear() {
   display.innerHTML = '';
-})
-
-let secondOperand;
-equals.addEventListener("click", function(e) {
-secondOperand = Number(display.innerHTML);
-console.log(secondOperand);
-if (op === "+") {
-  display.innerHTML = (firstOperand + secondOperand);
-} else if (op === "-") {
-  display.innerHTML = (firstOperand - secondOperand);
-} else if (op === "X") {
-  display.innerHTML = (firstOperand * secondOperand);
-} else if (op === "÷") {
-  display.innerHTML = (firstOperand / secondOperand);
-} else if (op === "%") {
-  display.innerHTML = (firstOperand % secondOperand);
-} else if (op === "+/-") {
-    toggleNegative();
-
 }
 
-
-})
-
-function toggleNegative() {
-  const currentNumber = Number(display.innerHTML);
-  display.innerHTML = -currentNumber;
+function evaluate(firstOperand, secondOperand, op) {
+  if (op === "+") {
+    display.innerHTML = (firstOperand + secondOperand);
+  } else if (op === "X") {
+    display.innerHTML = (firstOperand * secondOperand);
+  } else if (op === "-") {
+    display.innerHTML = (firstOperand - secondOperand);
+  } else if (op === "%") {
+    display.innerHTML = (firstOperand % secondOperand);
+  } else if (op === "÷") {
+    display.innerHTML = (firstOperand / secondOperand);
+  }
 }
+  
+
+  function makeNegative() {
+    let currentNumber = Number(display.innerHTML);
+    display.innerHTML = -currentNumber;
+
+  }
+
+
+
