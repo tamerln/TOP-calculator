@@ -2,11 +2,8 @@
 //when clicked, append inner html of button to inner html of screen 
 
 const buttons = document.querySelectorAll(".button");
-let display = document.querySelector("#screen");
+const display = document.querySelector("#screen");
 const ac = document.querySelector("#AC");
-const equals = document.querySelector("#equals");
-const operators = document.querySelectorAll(".operator");
-const operands = document.querySelectorAll(".operand");
 let firstOperand = null;
 let secondOperand = null;
 let op = null;
@@ -16,9 +13,15 @@ buttons.forEach(button => {
   button.addEventListener('click', e => {
     if (button.classList.contains("operand")) {
       display.innerHTML += e.target.innerHTML;
-      console.log(firstOperand);
+      
+      let maxCharLength = 10;
+      let currentCharLength = display.innerHTML.length;
+      if (currentCharLength === maxCharLength) {
+        display.innerHTML = display.innerHTML.slice(0,-1);
+      }
     } else if (button.classList.contains("operator")) {
       firstOperand = Number(display.innerHTML);
+       
       clear();
       op = e.target.innerHTML;
       console.log(op);
